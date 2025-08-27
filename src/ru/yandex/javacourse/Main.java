@@ -1,6 +1,6 @@
 package ru.yandex.javacourse;
 
-import ru.yandex.javacourse.manager.TaskManager;
+import ru.yandex.javacourse.manager.InMemoryTaskManager;
 import ru.yandex.javacourse.tasks.Task;
 import ru.yandex.javacourse.tasks.Subtask;
 import ru.yandex.javacourse.tasks.Epic;
@@ -10,7 +10,7 @@ import ru.yandex.javacourse.tasks.TaskStatus;
 public class Main {
 
     public static void main(String[] args) {
-        TaskManager taskManager = new TaskManager();
+        InMemoryTaskManager taskManager = new InMemoryTaskManager();
 
         Task task1 = new Task("Пополнить счёт на телефоне", "После 20:00", TaskStatus.NEW);
         Task task2 = new Task("Купить продукты", "Точно по списку", TaskStatus.NEW);

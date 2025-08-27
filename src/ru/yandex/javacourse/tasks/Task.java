@@ -12,6 +12,14 @@ public class Task {
         this.status = status;
     }
 
+    public  Task (Task original) {
+        this.id = original.id;
+        this.name = original.name;
+        this.description = original.description;
+        this.status = original.status;
+
+    }
+
     public String getName() {
         return name;
     }
@@ -45,7 +53,9 @@ public class Task {
 
    @Override
     public String toString() {
-        return "Task{" + "name='" + name + '\'' + ", description='" + description + '\'' + ", id=" + id + ", status=" + status + '}';
+        return "Task{" + "name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", id=" + id + ", status=" + status + '}';
         }
 
         @Override

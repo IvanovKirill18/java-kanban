@@ -1,5 +1,6 @@
 package ru.yandex.javacourse.tasks;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,16 +12,26 @@ public class Epic extends Task {
         super(name, description, TaskStatus.NEW);
     }
 
+    public Epic (Epic original) {
+        super(original);
+        this.subtaskIds = new ArrayList<>(original.subtaskIds);
+    }
     public List<Integer> getSubtaskIds() {
         return subtaskIds;
     }
 
     public void addSubtaskId (int subtaksId) {
-        this.subtaskIds.add(subtaksId);
+        if (!subtaskIds.contains(subtaksId)) {
+            this.subtaskIds.add(subtaksId);
+        }
     }
 
     public void removeSubtaskId (int subtaskId) {
         this.subtaskIds.remove(Integer.valueOf(subtaskId));
+    }
+
+    public void clearSubtaskIds() {
+        subtaskIds.clear();
     }
 
     @Override
