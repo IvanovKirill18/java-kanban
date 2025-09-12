@@ -11,13 +11,17 @@ import ru.yandex.javacourse.tasks.Subtask;
 import ru.yandex.javacourse.tasks.Task;
 import ru.yandex.javacourse.tasks.TaskStatus;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class TaskManagerTest {
     private static final String TASK_NAME_1 = "Задача 1";
     private static final String TASK_NAME_2 = "Задача 2";
+    private static final String TASK_NAME_3 = "Задача 3";
     private static final String TASK_DESCRIPTOIN_1 = "Описание задачи 1";
     private static final String TASK_DESCRIPTOIN_2 = "Описание задачи 2";
+    private static final String TASK_DESCRIPTOIN_3 = "Описание задачи 3";
     private static final String EPIC_NAME_1 = "Эпик 1";
     private static final String EPIC_NAME_2 = "Эпик 2";
     private static final String EPIC_DESCRIPTOIN_1 = "Описание эпика 1";
@@ -185,7 +189,9 @@ class TaskManagerTest {
     @DisplayName("Проверяем, что задачи, добавляемые в HistoryManager, сохраняют предыдущую версию задачи и её данных")
     void historyManager_SavedPreviousTask_Test() {
         //Given
-        InMemoryHistoryManager historyManager = new InMemoryHistoryManager();
+        HistoryManager historyManager = Managers.getDefaultHistory();
+        TaskManager taskManager = new InMemoryTaskManager();
+
         Task task = new Task(TASK_NAME_1, TASK_DESCRIPTOIN_1, TaskStatus.NEW);
         taskManager.createTask(task);
         historyManager.add(task);
@@ -202,4 +208,66 @@ class TaskManagerTest {
         assertEquals(TaskStatus.NEW, previousTask.getStatus(), "История должна сохранить изначальный статус - TaskStatus.NEW");
     }
 
+    @Test
+    @DisplayName("Проверяем, что история не содержит дубликатов при повторном просмотре задачи")
+    void historyManager_NuDuplicates_OnDoubleAdd_Test() {
+        //Given
+        HistoryManager historyManager = Managers.getDefaultHistory();
+        Task task = new Task(TASK_NAME_1, TASK_DESCRIPTOIN_1, TaskStatus.NEW);
+        task.setId(CONSTANT_ID);
+
+        //When
+        historyManager.add(task);
+        historyManager.add(task);
+        List<Task> history = historyManager.getHistory();
+
+        //Then
+        assertEquals(1, history.size(), "История не должна содержать дубликатов");
+        assertEquals(task, history.get(0), "В истории должна остататься последня добавленная версия");
+    }
+
+    @Test
+    @DisplayName("Проверяем, что порядок задач в истоии соответствует порядку добавления (последний добавленный - последний в списке")
+    void historyManager_KeepOrder_Test() {
+        //Given
+        HistoryManager historyManager = Managers.getDefaultHistory();
+        Task task1 = new Task(TASK_NAME_1, TASK_DESCRIPTOIN_1, TaskStatus.NEW);
+        task1.setId(1);
+        Task task2 = new Task(TASK_NAME_2, TASK_DESCRIPTOIN_2, TaskStatus.NEW);
+        task2.setId(2);
+
+        //When
+        historyManager.add(task1);
+        historyManager.add(task2);
+        List<Task> history = historyManager.getHistory();
+
+        //Then
+        assertEquals(task1, history.get(0), "Первой в истории должна быть первая добавленная задача");
+        assertEquals(task2, history.get(1), "Второй в истории должна быть вторая дабавленная задача");
+    }
+
+    @Test
+    @DisplayName("Проверяем удаление задачи из середины истории")
+    void historyManager_RemoveFromMidle_Test() {
+        //Given
+        HistoryManager historyManager = Managers.getDefaultHistory();
+        Task task1 = new Task(TASK_NAME_1, TASK_DESCRIPTOIN_1, TaskStatus.NEW);
+        task1.setId(1);
+        Task task2 = new Task(TASK_NAME_2, TASK_DESCRIPTOIN_2, TaskStatus.NEW);
+        task2.setId(2);
+        Task task3 = new Task(TASK_NAME_3, TASK_DESCRIPTOIN_3, TaskStatus.NEW);
+        task3.setId(3);
+
+        //When
+        historyManager.add(task1);
+        historyManager.add(task2);
+        historyManager.add(task3);
+        historyManager.remove(2);
+        List<Task> history = historyManager.getHistory();
+
+        //Then
+        assertEquals(2, history.size(), "После удаления одной задачи в истории должно остаться 2 элемента");
+        assertEquals(task1, history.get(0), "Первым элементом должен остаться task1");
+        assertEquals(task3,history.get(1), "Вторым элементом должен стать task3");
+    }
 }
