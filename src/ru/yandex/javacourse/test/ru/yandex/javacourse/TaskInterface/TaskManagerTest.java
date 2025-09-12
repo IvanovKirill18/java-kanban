@@ -4,7 +4,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import ru.yandex.javacourse.Managers;
-import ru.yandex.javacourse.manager.InMemoryHistoryManager;
 import ru.yandex.javacourse.manager.InMemoryTaskManager;
 import ru.yandex.javacourse.tasks.Epic;
 import ru.yandex.javacourse.tasks.Subtask;
