@@ -162,7 +162,6 @@ class TaskManagerTest {
         //When
 
 
-
         //Then
         assertNotNull(taskManager.getTask(task1.getId()), "Задача с заданным id должна существовать");
         assertNotNull(taskManager.getTask(task2.getId()), "Задача с сгенерированным id должна существовать");
@@ -268,6 +267,6 @@ class TaskManagerTest {
         //Then
         assertEquals(2, history.size(), "После удаления одной задачи в истории должно остаться 2 элемента");
         assertEquals(task1, history.get(0), "Первым элементом должен остаться task1");
-        assertEquals(task3,history.get(1), "Вторым элементом должен стать task3");
+        assertEquals(task3, history.get(1), "Вторым элементом должен стать task3");
     }
 }
