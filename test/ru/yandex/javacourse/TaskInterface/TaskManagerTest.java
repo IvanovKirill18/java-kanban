@@ -184,7 +184,7 @@ class TaskManagerTest {
     }
 
     @Test
-    @DisplayName("Проверяем, что задачи, добавляемые в HistoryManager, сохраняют предыдущую версию задачи и её данных")
+    @DisplayName("Проверяем, что задачи, добавляемые в HistoryManager, сохраняют актуальную версию задачи и её данных")
     void historyManager_SavedPreviousTask_Test() {
         //Given
         HistoryManager historyManager = Managers.getDefaultHistory();
@@ -201,9 +201,9 @@ class TaskManagerTest {
         Task previousTask = historyManager.getHistory().get(0);
 
         //Then
-        assertEquals(TASK_NAME_1, previousTask.getName(), "История должна сохранить изначальное название задачи - Задача 1");
-        assertEquals(TASK_DESCRIPTOIN_1, previousTask.getDescription(), "История должна сохранить изначальное описанние - Описание 1");
-        assertEquals(TaskStatus.NEW, previousTask.getStatus(), "История должна сохранить изначальный статус - TaskStatus.NEW");
+        assertEquals("Изменённое название", previousTask.getName(), "История должна хранить актульное название задачи - Изменённое название");
+        assertEquals("Изменённое описание", previousTask.getDescription(), "История должна хранить актульное описанние - Изменённое описание");
+        assertEquals(TaskStatus.IN_PROGRESS, previousTask.getStatus(), "История должна хранить актуальный статус - TaskStatus.IN_PROGRESS");
     }
 
     @Test

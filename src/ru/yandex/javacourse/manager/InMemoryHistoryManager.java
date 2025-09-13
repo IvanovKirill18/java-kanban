@@ -87,16 +87,7 @@ public class InMemoryHistoryManager implements HistoryManager {
             historyMap.remove(taskId);
         }
 
-        Task taskCopy;
-        if (task instanceof Subtask) {
-            taskCopy = new Subtask((Subtask) task);
-        } else if (task instanceof Epic) {
-            taskCopy = new Epic((Epic) task);
-        } else {
-            taskCopy = new Task(task);
-        }
-
-        Node newNode = linkLast(taskCopy);
+        Node newNode = linkLast(task);
         historyMap.put(taskId, newNode);
     }
 
