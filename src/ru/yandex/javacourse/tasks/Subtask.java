@@ -1,14 +1,14 @@
 package ru.yandex.javacourse.tasks;
 
 public class Subtask extends Task {
-    private  int epicId;
+    private int epicId;
 
     public Subtask(String name, String description, TaskStatus status, int epicId) {
         super(name, description, status);
         this.epicId = epicId;
     }
 
-    public  Subtask (Subtask original) {
+    public Subtask(Subtask original) {
         super(original);
         this.epicId = original.epicId;
     }
@@ -18,7 +18,9 @@ public class Subtask extends Task {
         return epicId;
     }
 
-    public void setEpicId(int epicId) { this.epicId = epicId; }
+    public void setEpicId(int epicId) {
+        this.epicId = epicId;
+    }
 
     @Override
     public String toString() {
